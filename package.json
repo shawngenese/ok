@@ -1,0 +1,18 @@
+{
+  "name": "pulse-chat",
+  "version": "1.0.0",
+  "description": "A modern single-page chat application with smart AI assistance, markdown support, voice notes, and local persistence.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "chat",
+    "single-page-app",
+    "gemini",
+    "markdown",
+    "spa"
+  ],
+  "author": "",
+  "license": "MIT"
+}
