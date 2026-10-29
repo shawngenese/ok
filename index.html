@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>e-Sumbong Figma Design System &amp; Screen Showcase</title>
+  <style>
+    :root {
+      --figma-bg: #1e1e1e;
+      --figma-panel: #2c2c2c;
+      --figma-border: #383838;
+      --figma-text: #ffffff;
+      --figma-text-muted: #9e9e9e;
+      --figma-blue: #0d99ff;
+      --figma-hover: #383838;
+      --teal-primary: #0f766e;
+      --teal-hover: #0d9488;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--figma-bg);
+      color: var(--figma-text);
+      font-family: var(--font-sans);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Figma Bar */
+    header.figma-topbar {
+      height: 48px;
+      background: var(--figma-panel);
+      border-bottom: 1px solid var(--figma-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 50;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .figma-badge {
+      background: #000000;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      border: 1px solid #444;
+    }
+
+    .project-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .version-tag {
+      font-size: 11px;
+      color: var(--figma-text-muted);
+      background: #333;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .center-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #1e1e1e;
+      padding: 3px;
+      border-radius: 6px;
+      border: 1px solid var(--figma-border);
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--figma-text-muted);
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .nav-btn:hover {
+      color: #ffffff;
+      background: var(--figma-hover);
+    }
+
+    .nav-btn.is-active {
+      color: #ffffff;
+      background: var(--figma-panel);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-action {
+      background: var(--figma-blue);
+      color: #ffffff;
+      border: none;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.15s ease;
+    }
+
+    .btn-action:hover {
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      background: #383838;
+      color: #ffffff;
+      border: 1px solid #4f4f4f;
+    }
+
+    .btn-secondary:hover {
+      background: #444;
+    }
+
+    /* Workspace Layout */
+    .workspace {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Left Sidebar: Pages & Frames */
+    aside.sidebar-left {
+      width: 260px;
+      background: var(--figma-panel);
+      border-right: 1px solid var(--figma-border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .sidebar-header {
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--figma-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--figma-border);
+    }
+
+    .frame-list {
+      list-style: none;
+      overflow-y: auto;
+      flex: 1;
+      padding: 8px 0;
+    }
+
+    .frame-item {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: #cccccc;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .frame-item:hover {
+      background: var(--figma-hover);
+      color: #ffffff;
+    }
+
+    .frame-item.is-selected {
+      background: #143547;
+      color: var(--figma-blue);
+      font-weight: 600;
+      border-left: 3px solid var(--figma-blue);
+    }
+
+    .frame-icon {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      flex-shrink: 0;
+    }
+
+    .frame-meta {
+      font-size: 10px;
+      color: var(--figma-text-muted);
+      margin-left: auto;
+      font-family: var(--font-mono);
+    }
+
+    /* Canvas Stage */
+    main.canvas-viewport {
+      flex: 1;
+      background: #181818;
+      position: relative;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .canvas-grid {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
+
+    .artboard-container {
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px #333333;
+      border-radius: 4px;
+      background: #ffffff;
+      transform-origin: center center;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .artboard-header {
+      position: absolute;
+      top: -30px;
+      left: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .artboard-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--figma-text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .artboard-dims {
+      font-size: 10px;
+      color: #666;
+      font-family: var(--font-mono);
+    }
+
+    /* Right Sidebar: Properties & Figma Copy Instructions */
+    aside.sidebar-right {
+      width: 320px;
+      background: var(--figma-panel);
+      border-left: 1px solid var(--figma-border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+    }
+
+    .prop-group {
+      padding: 16px;
+      border-bottom: 1px solid var(--figma-border);
+    }
+
+    .prop-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--figma-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .prop-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .prop-label {
+      color: var(--figma-text-muted);
+    }
+
+    .prop-value {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .swatch-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .swatch-color {
+      height: 28px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .swatch-name {
+      font-size: 9px;
+      color: var(--figma-text-muted);
+      font-family: var(--font-mono);
+      text-align: center;
+    }
+
+    .instruction-card {
+      background: #222222;
+      border: 1px solid #3a3a3a;
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 11px;
+      line-height: 1.5;
+      color: #cccccc;
+    }
+
+    .instruction-step {
+      margin-bottom: 8px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .step-num {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--figma-blue);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Floating Zoom Controls */
+    .zoom-bar {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(44, 44, 44, 0.95);
+      border: 1px solid var(--figma-border);
+      backdrop-filter: blur(8px);
+      padding: 4px 8px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 40;
+    }
+
+    .zoom-btn {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .zoom-btn:hover {
+      background: var(--figma-hover);
+    }
+
+    .zoom-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #cccccc;
+      min-width: 44px;
+      text-align: center;
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #059669;
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Figma Style Header -->
+  <header class="figma-topbar">
+    <div class="brand-section">
+      <span class="figma-badge">FIGMA DESIGN</span>
+      <span class="project-name">e-Sumbong Civic Portal &amp; Triage Suite</span>
+      <span class="version-tag">Design System v2.0</span>
+    </div>
+
+    <div class="center-nav">
+      <button class="nav-btn is-active" id="btn-mode-canvas" onclick="setViewMode('canvas')">Canvas View</button>
+      <button class="nav-btn" id="btn-mode-tokens" onclick="setViewMode('tokens')">Design Tokens</button>
+      <button class="nav-btn" id="btn-mode-specs" onclick="setViewMode('specs')">Figma Spec</button>
+    </div>
+
+    <div class="top-actions">
+      <button class="btn-action btn-secondary" onclick="copyActiveSvg()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        Copy SVG for Figma
+      </button>
+
+      <button class="btn-action" onclick="downloadTokensJson()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Export Tokens Studio JSON
+      </button>
+    </div>
+  </header>
+
+  <!-- Workspace Shell -->
+  <div class="workspace">
+    
+    <!-- Left Sidebar: Frames & Layers -->
+    <aside class="sidebar-left">
+      <div class="sidebar-header">Figma Artboard Frames (6)</div>
+      <ul class="frame-list">
+        <li class="frame-item is-selected" onclick="switchFrame(0)">
+          <svg class="frame-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          <span>01 · Citizen Intake Desk</span>
+          <span class="frame-meta">1440x980</span>
+        </li>
+        <li class="frame-item" onclick="switchFrame(1)">
+          <svg class="frame-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          <span>02 · Public Feed &amp; GIS Map</span>
+          <span class="frame-meta">1440x980</span>
+        </li>
+        <li class="frame-item" onclick="switchFrame(2)">
+          <svg class="frame-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          <span>03 · Ticket Tracker &amp; Dispute</span>
+          <span class="frame-meta">1440x980</span>
+        </li>
+        <li class="frame-item" onclick="switchFrame(3)">
+          <svg class="frame-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          <span>04 · Admin Triage Command</span>
+          <span class="frame-meta">1440x980</span>
+        </li>
+        <li class="frame-item" onclick="switchFrame(4)">
+          <svg class="frame-icon" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="3"/></svg>
+          <span>05 · Mobile Tanod Field App</span>
+          <span class="frame-meta">412x915</span>
+        </li>
+        <li class="frame-item" onclick="switchFrame(5)">
+          <svg class="frame-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>06 · Official Action Memo A4</span>
+          <span class="frame-meta">800x1131</span>
+        </li>
+      </ul>
+
+      <div class="sidebar-header" style="margin-top: auto;">System Components</div>
+      <div style="padding: 12px 16px; font-size: 11px; color: #888; line-height: 1.5;">
+        All frames strictly follow Auto-Layout principles, 8pt spacing grid, WCAG 2.1 AA contrast, and zero-emoji compliance.
+      </div>
+    </aside>
+
+    <!-- Canvas Viewport -->
+    <main class="canvas-viewport" id="viewport">
+      <div class="canvas-grid"></div>
+
+      <!-- Active Frame Container -->
+      <div class="artboard-container" id="artboard-stage">
+        <div class="artboard-header">
+          <span class="artboard-title" id="stage-title">DESKTOP_CITIZEN_INTAKE_V2</span>
+          <span class="artboard-dims" id="stage-dims">1440 x 980 px</span>
+        </div>
+        
+        <!-- Render Object -->
+        <object id="svg-object" type="image/svg+xml" data="screens/screen-01-citizen-portal.svg" style="display: block; width: 100%; height: auto; pointer-events: auto;"></object>
+      </div>
+
+      <!-- Floating Zoom Controls -->
+      <div class="zoom-bar">
+        <button class="zoom-btn" onclick="adjustZoom(-0.1)">-</button>
+        <span class="zoom-label" id="zoom-indicator">70%</span>
+        <button class="zoom-btn" onclick="adjustZoom(0.1)">+</button>
+        <button class="zoom-btn" onclick="resetZoom()" style="font-size: 11px; width: auto; padding: 0 4px;">Fit</button>
+      </div>
+    </main>
+
+    <!-- Right Sidebar: Properties & Quick Import Guide -->
+    <aside class="sidebar-right">
+      <div class="prop-group">
+        <div class="prop-title">Frame Properties</div>
+        <div class="prop-row">
+          <span class="prop-label">Screen Name</span>
+          <span class="prop-value" id="prop-name">Citizen Intake Desk</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Viewport Target</span>
+          <span class="prop-value" id="prop-viewport">Desktop (1440px)</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Grid System</span>
+          <span class="prop-value">8pt Baseline Grid</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Color Mode</span>
+          <span class="prop-value">Institutional Civic Teal</span>
+        </div>
+      </div>
+
+      <div class="prop-group">
+        <div class="prop-title">Core Color Tokens</div>
+        <div class="swatch-grid">
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #0f766e;"></div>
+            <span class="swatch-name">Teal-700</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #0f172a;"></div>
+            <span class="swatch-name">Slate-900</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #059669;"></div>
+            <span class="swatch-name">Success</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #ea580c;"></div>
+            <span class="swatch-name">Dispatch</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #dc2626;"></div>
+            <span class="swatch-name">Emergency</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #d97706;"></div>
+            <span class="swatch-name">Warning</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #f8fafc;"></div>
+            <span class="swatch-name">Canvas</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-color" style="background: #e2e8f0;"></div>
+            <span class="swatch-name">Border</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="prop-group">
+        <div class="prop-title">Importing to Figma</div>
+        <div class="instruction-card">
+          <div class="instruction-step">
+            <span class="step-num">1</span>
+            <div>Click <strong>"Copy SVG for Figma"</strong> in the top header.</div>
+          </div>
+          <div class="instruction-step">
+            <span class="step-num">2</span>
+            <div>Open Figma (Desktop or Web), create an empty canvas.</div>
+          </div>
+          <div class="instruction-step">
+            <span class="step-num">3</span>
+            <div>Press <strong>Ctrl + V</strong> (or Cmd + V). Figma will instantly convert this vector SVG into native Figma Frames, Groups, Auto-layout layers, and editable text!</div>
+          </div>
+          <div class="instruction-step">
+            <span class="step-num">4</span>
+            <div>Alternatively, drag any file from <code>figma/screens/*.svg</code> straight into your Figma canvas.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prop-group">
+        <div class="prop-title">Figma Tokens Studio</div>
+        <div style="font-size: 11px; color: #aaa; line-height: 1.5; margin-bottom: 10px;">
+          The accompanying <code>figma-tokens.json</code> defines the entire Design Token architecture (Colors, Typography, Spacing, Radii, Shadows).
+        </div>
+        <button class="btn-action btn-secondary" style="width: 100%; justify-content: center;" onclick="copyTokensJson()">
+          Copy Tokens JSON Code
+        </button>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Toast Element -->
+  <div id="toast">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span id="toast-msg">Copied SVG to Clipboard! Paste directly into Figma.</span>
+  </div>
+
+  <script>
+    const frames = [
+      {
+        id: 'screen-01-citizen-portal.svg',
+        title: 'DESKTOP_CITIZEN_INTAKE_V2',
+        name: 'Citizen Intake & Proximity Dedup',
+        dims: '1440 x 980 px',
+        viewport: 'Desktop (1440px)',
+        width: 1440,
+        height: 980
+      },
+      {
+        id: 'screen-02-public-feed.svg',
+        title: 'DESKTOP_PUBLIC_BULLETIN_V2',
+        name: 'Public Feed & GIS Command',
+        dims: '1440 x 980 px',
+        viewport: 'Desktop (1440px)',
+        width: 1440,
+        height: 980
+      },
+      {
+        id: 'screen-03-ticket-tracker.svg',
+        title: 'DESKTOP_TICKET_TRACKER_DISPUTE_V2',
+        name: 'Ticket Tracker & Dispute Loop',
+        dims: '1440 x 980 px',
+        viewport: 'Desktop (1440px)',
+        width: 1440,
+        height: 980
+      },
+      {
+        id: 'screen-04-admin-triage-desk.svg',
+        title: 'DESKTOP_ADMIN_COMMAND_TRIAGE_V2',
+        name: 'Admin Command & Triage Desk',
+        dims: '1440 x 980 px',
+        viewport: 'Desktop (1440px)',
+        width: 1440,
+        height: 980
+      },
+      {
+        id: 'screen-05-mobile-tanod-field.svg',
+        title: 'MOBILE_FIELD_RESPONDER_V2',
+        name: 'Mobile Tanod Field App',
+        dims: '412 x 915 px',
+        viewport: 'Mobile Android / iOS (412px)',
+        width: 412,
+        height: 915
+      },
+      {
+        id: 'screen-06-lgu-official-memo.svg',
+        title: 'A4_PRINTABLE_OFFICIAL_MEMORANDUM_V2',
+        name: 'Official Action Memorandum',
+        dims: '800 x 1131 px',
+        viewport: 'A4 Document Print (800px)',
+        width: 800,
+        height: 1131
+      }
+    ];
+
+    let currentFrameIndex = 0;
+    let currentZoom = 0.68;
+
+    function applyZoom() {
+      const stage = document.getElementById('artboard-stage');
+      stage.style.transform = `scale(${currentZoom})`;
+      document.getElementById('zoom-indicator').innerText = Math.round(currentZoom * 100) + '%';
+    }
+
+    function adjustZoom(delta) {
+      currentZoom = Math.max(0.2, Math.min(2.0, currentZoom + delta));
+      applyZoom();
+    }
+
+    function resetZoom() {
+      const active = frames[currentFrameIndex];
+      const viewport = document.getElementById('viewport');
+      const vW = viewport.clientWidth - 80;
+      const vH = viewport.clientHeight - 80;
+      const scaleW = vW / active.width;
+      const scaleH = vH / active.height;
+      currentZoom = Math.min(scaleW, scaleH, 0.95);
+      applyZoom();
+    }
+
+    function switchFrame(index) {
+      currentFrameIndex = index;
+      const frame = frames[index];
+
+      // Update sidebar active class
+      document.querySelectorAll('.frame-item').forEach((el, i) => {
+        el.classList.toggle('is-selected', i === index);
+      });
+
+      // Update Header & properties
+      document.getElementById('stage-title').innerText = frame.title;
+      document.getElementById('stage-dims').innerText = frame.dims;
+      document.getElementById('prop-name').innerText = frame.name;
+      document.getElementById('prop-viewport').innerText = frame.viewport;
+
+      // Update SVG container dimensions & data source
+      const stage = document.getElementById('artboard-stage');
+      stage.style.width = frame.width + 'px';
+      stage.style.height = frame.height + 'px';
+
+      const obj = document.getElementById('svg-object');
+      obj.data = 'screens/' + frame.id;
+
+      resetZoom();
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
+      t.style.display = 'flex';
+      setTimeout(() => { t.style.display = 'none'; }, 3200);
+    }
+
+    async function copyActiveSvg() {
+      const frame = frames[currentFrameIndex];
+      try {
+        const response = await fetch('screens/' + frame.id);
+        const svgText = await response.text();
+        await navigator.clipboard.writeText(svgText);
+        showToast('Vector SVG copied! Open Figma and press Ctrl + V to paste.');
+      } catch (e) {
+        showToast('SVG ready in figma/screens/' + frame.id + ' (drag & drop directly into Figma)');
+      }
+    }
+
+    async function copyTokensJson() {
+      try {
+        const response = await fetch('figma-tokens.json');
+        const jsonText = await response.text();
+        await navigator.clipboard.writeText(jsonText);
+        showToast('Tokens Studio JSON copied! Paste into Tokens Studio plugin in Figma.');
+      } catch (e) {
+        showToast('File located at figma/figma-tokens.json');
+      }
+    }
+
+    function downloadTokensJson() {
+      const a = document.createElement('a');
+      a.href = 'figma-tokens.json';
+      a.download = 'e-sumbong-tokens.json';
+      a.click();
+      showToast('Downloaded e-sumbong-tokens.json');
+    }
+
+    function setViewMode(mode) {
+      document.getElementById('btn-mode-canvas').classList.toggle('is-active', mode === 'canvas');
+      document.getElementById('btn-mode-tokens').classList.toggle('is-active', mode === 'tokens');
+      document.getElementById('btn-mode-specs').classList.toggle('is-active', mode === 'specs');
+
+      if (mode === 'tokens') {
+        window.open('figma-tokens.json', '_blank');
+      } else if (mode === 'specs') {
+        window.open('FIGMA_DESIGN_SPEC.md', '_blank');
+      }
+    }
+
+    // Initialize
+    window.addEventListener('load', () => {
+      switchFrame(0);
+    });
+    window.addEventListener('resize', () => {
+      resetZoom();
+    });
+  </script>
+</body>
+</html>
